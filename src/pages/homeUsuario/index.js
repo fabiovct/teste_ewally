@@ -78,6 +78,14 @@ export default function HomeUsuario() {
         })
     }
 
+    function createMarkup(valor) {
+      return {__html: valor};
+    }
+    
+    function MyComponent(valor) {
+      return <div dangerouslySetInnerHTML={createMarkup(valor)} />;
+    }
+
 
 
 
@@ -165,36 +173,34 @@ export default function HomeUsuario() {
                                 <Accordion.Toggle as={Button} variant="link" eventKey="0">
                                     <Icon.Plus style={{ fontSize: '1.65em' }} />
                                 </Accordion.Toggle>
-                                &nbsp; <strong><i>Conta: </i></strong>&nbsp; {extrato.accountName}
+                                {/* &nbsp; <strong><i>Conta: </i></strong>&nbsp; {extrato.accountName} */}
                                 <strong><i> &nbsp; Valor: </i></strong> &nbsp; {Formatar.formatarMoeda(extrato.amount/100)}
-                                <strong><i> &nbsp; Saldo: </i></strong> &nbsp; {Formatar.formatarMoeda(extrato.balance/100)}
+                                {/* <strong><i> &nbsp; Saldo: </i></strong> &nbsp; {Formatar.formatarMoeda(extrato.balance/100)} */}
                                 <strong><i> &nbsp; Data: </i></strong> &nbsp; {moment(new Date(extrato.createdAt)).format("DD/MM/YYYY")}
                                 <strong><i> &nbsp; Tipo: </i></strong> &nbsp; {extrato.operationType}
-                                <strong><i> &nbsp; Status: </i></strong> &nbsp; {extrato.status}
+                                {/* <strong><i> &nbsp; Status: </i></strong> &nbsp; {extrato.status} */}
                             </Card.Header>
+                            {extrato.otherInfo &&
                             <Accordion.Collapse eventKey="0">
                                 <Card.Body>
-                                    {/* <strong>Dados do Cedente:</strong>
+                                  {extrato.otherInfo.userLatitude &&
+                                     <strong>Latitude:{extrato.otherInfo.userLatitude} &nbsp;&nbsp;</strong>
+
+                                  }
+                                  {extrato.otherInfo.userLongitude &&
+                                     <strong>Longitude:{extrato.otherInfo.userLongitude} </strong>
+                                  }
+                                  {extrato.otherInfo.cupom &&
+                                    <>
                                     <br></br>
-                                    <br></br>
-                                    <strong>Nome: </strong>{boleto.cedente_nome} &nbsp; <strong>Agencia: </strong>{boleto.agencia} &nbsp; <strong>Conta: </strong>{boleto.conta}-{boleto.conta_id} &nbsp; <strong>Carteira: </strong>{boleto.carteira}
-                                    <br></br>
-                                    <strong>Uf: </strong>{boleto.cedente_uf}  &nbsp; <strong>Cidade: </strong>{boleto.cedente_cidade} &nbsp; <strong>CEP: </strong>{boleto.cedente_cep} &nbsp; <strong>Endereco: </strong>{boleto.cedente_endereco}
-                                    <br></br>
-                                    <hr></hr>
-                                    <strong>Dados do Sacado:</strong>
-                                    <br></br>
-                                    <br></br>
-                                    <strong>Nome: </strong>{boleto.sacado_nome}
-                                    <br></br>
-                                    <strong>Uf: </strong>{boleto.sacado_uf}  &nbsp; <strong>Cidade: </strong>{boleto.sacado_cidade} &nbsp; <strong>CEP: </strong>{boleto.sacado_cep} &nbsp; <strong>Endereco: </strong>{boleto.sacado_endereco}
-                                    <br></br> */}
-                                    {/* <strong><hr></hr></strong>
-                                    <strong>Juros: </strong>{Formatar.formatarMoeda(boleto.juros)+' ao dia'} &nbsp; <strong>Multa: </strong>{Formatar.formatarMoeda(boleto.multa)} &nbsp; <strong>Desconto: </strong>{Formatar.formatarMoeda(boleto.valor_desconto)} &nbsp; <strong>Abatimento: </strong>{Formatar.formatarMoeda(boleto.valor_abatimento)} &nbsp; {boleto.data_limite_desconto && <strong>Data Limite do Desconto: </strong>}{Formatar.formatDateGerenciadorBoletos(boleto.data_limite_desconto)}
-                                    <br></br>
-                                     <strong>Data de Emissão: </strong>{Formatar.formatDateGerenciadorBoletos(boleto.data_emissao)} &nbsp; <strong>Nosso Número: </strong>{boleto.nosso_numero} &nbsp; <strong>Valor: </strong>{Formatar.formatarMoeda(boleto.valor)} */}
+                                    <strong>Cupom: </strong>
+                                    {MyComponent((extrato.otherInfo.cupom.replace(/@@/g,'<br></br>').replace(/@/g,' ')))}
+                                    
+                                    </>
+                                  }
                                 </Card.Body>
                             </Accordion.Collapse>
+                            }
                          </Card>
                     </Accordion>
                 ))}
