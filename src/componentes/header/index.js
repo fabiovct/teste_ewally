@@ -4,10 +4,12 @@ import { Container, Navbar } from 'react-bootstrap';
 
 function Header() {
 
-    function logout(){
-        console.log('logout')
+    function logout() {
+        localStorage.removeItem('token_ewally');
+        window.location.href = '/';
+    };
 
-    }
+    if (window.location.pathname === '/home-usuario'){
 
     return (
         <>
@@ -15,6 +17,13 @@ function Header() {
             <Container>
                 <Navbar.Brand href="#home">EWALLY</Navbar.Brand>
             </Container>
+            <button 
+                type="button" 
+                className="btn btn-primary"
+                onClick={() => logout()}
+            >
+                Logout
+            </button>
          </Navbar>
         {/* <nav className="navbar mb-2 header-component">
             <a className="link-home" href="/homeUsuario">Teste</a>
@@ -26,6 +35,13 @@ function Header() {
         </nav> */}
         </>
     )
+    }else{
+        return (
+            <>
+            </>
+        )
+
+    }
 }
 
 export default Header;
