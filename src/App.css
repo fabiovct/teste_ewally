@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+.login-usuario{
+  /* background-color: $cor_background_login;
+  color: $cor_texto_login;
+  font-weight: bold; */
+  margin-top: 100px;
+  margin-bottom: 10px;
+}
