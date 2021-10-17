@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,12 +35,24 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */
 
 .login-usuario{
-  /* background-color: $cor_background_login;
-  color: $cor_texto_login;
-  font-weight: bold; */
   margin-top: 100px;
   margin-bottom: 10px;
+  background-color:aliceblue;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+.fundo-home{
+  width: 100vw;
+  height: 150vh;
+  background-position: center center;
+  background-size: cover;
+  overflow: hidden;
+  background: url('assets/home.jpg');
 }

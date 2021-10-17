@@ -9,7 +9,7 @@ function Header() {
         window.location.href = '/';
     };
 
-    if (window.location.pathname === '/home-usuario'){
+    // if (window.location.pathname === '/home-usuario'){
 
     return (
         <>
@@ -17,6 +17,7 @@ function Header() {
             <Container>
                 <Navbar.Brand href="#home">EWALLY</Navbar.Brand>
             </Container>
+            {window.location.pathname !== '/' &&
             <button 
                 type="button" 
                 className="btn btn-primary"
@@ -24,6 +25,7 @@ function Header() {
             >
                 Logout
             </button>
+            }
          </Navbar>
         {/* <nav className="navbar mb-2 header-component">
             <a className="link-home" href="/homeUsuario">Teste</a>
@@ -35,13 +37,13 @@ function Header() {
         </nav> */}
         </>
     )
-    }else{
-        return (
-            <>
-            </>
-        )
+    // }else{
+    //     return (
+    //         <>
+    //         </>
+    //     )
 
-    }
+    // }
 }
 
 export default Header;

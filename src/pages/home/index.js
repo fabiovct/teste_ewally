@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Modal, Container, Row, Form } from 'react-bootstrap';
+import { Modal, Container, Row, Form, Image } from 'react-bootstrap';
 import api from '../../service/api';
+// import api from '../../assets/'
 
 
 
@@ -26,25 +27,12 @@ export default function Home() {
         })
     }
 
-
-    // async function loginConta(data) {
-    //     setLoadingModal(true)
-    //      await api.post('index.php?r=usuario/create-token', data, {})
-    //     .then((result) => {
-    //         if(result){
-            
-    //             localStorage.setItem('token',result.data)
-    //             window.location.href = '/homeUsuario';
-    //         }else{
-    //             window.location.href = '/';
-    //         }
-    //     })
-    // }
-
     return (
         <>
-            <Container className=" col-sm-3 login-usuario" style={{padding:"20px", borderRadius:'10px', border:'1px solid #dddddd'}}>
-                <form onSubmit = {loginUser}>
+        <div className='fundo-home' >
+            <Container className=" col-md-2 login-usuario" style={{padding:"20px", borderRadius:'10px', border:'1px solid #dddddd'}}>
+            
+                <Form  onSubmit = {loginUser}>
                     <div className="form-group">
                         <label>Nome Usuário</label>
                         <input
@@ -66,8 +54,9 @@ export default function Home() {
                     </div>
                         <button style={{ marginTop:'15px'}} type="submit" className="btn btn-sm btn-success">Login</button>
                     
-            </form>
+                </Form>
             </Container>
+            </div>
         </>
 
 
