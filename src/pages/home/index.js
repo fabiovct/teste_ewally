@@ -29,7 +29,7 @@ export default function Home() {
 
     return (
         <>
-        <div className='fundo-home' >
+        <div className='fundo-home container-fluid' >
             <Container className=" col-md-2 login-usuario" style={{padding:"20px", borderRadius:'10px', border:'1px solid #dddddd'}}>
             
                 <Form  onSubmit = {loginUser}>
