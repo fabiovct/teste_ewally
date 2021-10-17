@@ -56,3 +56,11 @@ body, html {
   overflow: hidden;
   background: url('assets/home.jpg');
 }
+
+.saldos-home{
+  padding: 5px;
+}
+
+.texto-saldos-home{
+  font-size: 17px;
+}

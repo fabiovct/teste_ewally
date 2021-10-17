@@ -1,5 +1,6 @@
 import React, {useState } from 'react';
 import { Container, Navbar } from 'react-bootstrap';
+import * as Icon from 'react-bootstrap-icons';
 // import api from '../../services/api';
 
 function Header() {
@@ -16,16 +17,17 @@ function Header() {
          <Navbar bg="dark" variant="dark">
             <Container>
                 <Navbar.Brand href="#home">EWALLY</Navbar.Brand>
-            </Container>
-            {window.location.pathname !== '/' &&
+                {window.location.pathname !== '/' &&
             <button 
                 type="button" 
-                className="btn btn-primary"
+                className="btn btn-danger btn-sm"
                 onClick={() => logout()}
             >
-                Logout
+                <Icon.BoxArrowRight style={{ fontSize: '1.65em' }} />
             </button>
             }
+            </Container>
+
          </Navbar>
         {/* <nav className="navbar mb-2 header-component">
             <a className="link-home" href="/homeUsuario">Teste</a>

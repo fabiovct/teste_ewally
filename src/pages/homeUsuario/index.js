@@ -217,8 +217,24 @@ export default function HomeUsuario() {
 
     return (
         <>
-        <Container>
-            <h1>{Formatar.formatarMoeda(saldo.balance/100)}</h1>
+        <Container className='mt-4'>
+          <Col md={2}>
+            <Card className="saldo-icones-home-usuario" style={{fontWeight:"bold"}}>
+              <Row>
+                <Col className="text-center"><Icon.Cash style={{fontSize:'30px'}}/></Col>
+              </Row>
+              <Row>
+                <Col className="text-center">
+                <span className="saldos-home span-saldos-home"> Saldo Conta</span>
+                </Col>
+              </Row>
+              <Col className="text-center">
+                <h5 className="saldos-home texto-saldos-home"><strong>{Formatar.formatarMoeda(saldo.balance/100)}</strong></h5>
+              </Col>
+          
+            </Card>
+          </Col>
+            {/* <h1>{Formatar.formatarMoeda(saldo.balance/100)}</h1> */}
 
         </Container>
         <Container className="mt-4 col-md-10 d-flex justify-content-center" style={{backgroundColor:'rgba(245,245,245)',border:'1px solid #dddddd', padding:'10px', borderRadius:'10px', marginBottom:'15px'}} >
@@ -254,8 +270,8 @@ export default function HomeUsuario() {
                     onChange={date => setDataAte(date)}
                   />
               </div>
-              <div className="form-group col-md-2" style={{marginTop:'35px'}}>
-                <button type="submit" className="btn btn-sm btn-success">Procurar</button>
+              <div className="form-group col-md-2" style={{marginTop:'25px'}}>
+                <button type="submit" className="btn btn-sm btn-success"><Icon.Search style={{ fontSize: '1.65em' }} /></button>
               </div>
               </Row>
               </Col>
@@ -263,9 +279,9 @@ export default function HomeUsuario() {
           </Container>
           {showExtrato &&
           <>
-            <Container className="mt-4 col-md-12">
+            <Container className="mt-4 col-md-12" style={{padding:'1px'}}>
             <Row >
-            <Col md={6}>
+            <Col md={6} >
             <div className="card mt-5 mb-5">
               <HighchartsReact
                 highcharts={Highcharts}
@@ -277,11 +293,11 @@ export default function HomeUsuario() {
             <Col md={6} >
             <div className="card mt-5 mb-5">
                 {sliceExtrato.map(extrato=>(
-                    <Accordion className="mt-2 mb-2 col-12" key={extrato.id} >
+                    <Accordion className="mt-2 mb-2 col-12" key={extrato.id} defaultActiveKey="0" >
                        <Card >
                        <Card.Header style={{ fontSize: '1.00em', padding:'0px' }}>
-                                <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                                    <Icon.Plus style={{ fontSize: '1.65em' }} />
+                                <Accordion.Toggle as={Button} variant="link" eventKey="0" >
+                                    <Icon.ArrowDownCircle style={{ fontSize: '1.65em' }} />
                                 </Accordion.Toggle>
                                 {/* &nbsp; <strong><i>Conta: </i></strong>&nbsp; {extrato.accountName} */}
                                 <strong><i> &nbsp; Valor: </i></strong> &nbsp; <i style={{color:colorStatus(extrato.amount)}}>{Formatar.formatarMoeda(extrato.amount/100)}</i>
