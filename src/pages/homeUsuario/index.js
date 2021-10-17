@@ -160,6 +160,7 @@ export default function HomeUsuario() {
             // 
     
         }).catch(err => {
+          alert('Sessão expirada. Por favor faça login novamente')
           console.log(err);
             // window.location.href = '/';
         })

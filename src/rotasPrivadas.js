@@ -23,7 +23,10 @@ export default function RouteWrapper({
         await api.get('account/balance',data ,{})
         .then(function(v){
         }).catch(err => {
-            setToken(false)
+            // alert('Sessão expirada. Por favor faça login novamente')
+            // setToken(false)
+            // return window.location.pathname='/'
+            // window.location.href = '/';
               // window.location.href = '/';
         })
         }else{
@@ -35,6 +38,7 @@ export default function RouteWrapper({
       const  signed = token;
 
       if((signed===false && isPrivate) || isBloqued===false){
+        // alert('Sessão expirada. Por favor faça login novamente')
           return window.location.pathname='/'
       }
       

@@ -14,11 +14,15 @@ import { useEffect,useState } from 'react';
     };
         
     async function loadSaldo() {
-        const response = await api.get('account/balance', data, {
-
-        });
+        await api.get('account/balance',data ,{})
+        .then(function(response){
+            setSaldo(response.data)
+        }).catch(err => {
+            alert('Sessão expirada. Por favor faça login novamente')
+            window.location.href = '/';
+        })
         // console.log(response.data)
-        setSaldo(response.data)
+        
     }
 
     loadSaldo();
