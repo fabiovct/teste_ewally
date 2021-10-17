@@ -89,7 +89,7 @@ export default function HomeUsuario() {
         array_entradas_grafico.push(array_valor_entrada/100)
         array_saidas_grafico.push(array_valor_saida/100)
         // entradasGrafico.push(12)
-        console.log('datas',array_datas_grafico)
+        // console.log('datas',array_datas_grafico)
       });
       setDatasGrafico(array_datas_grafico)
       setEntradasGrafico(array_entradas_grafico)
@@ -125,12 +125,12 @@ export default function HomeUsuario() {
 
     async function verExtrato(event){
         event.preventDefault();
-        // console.log(dataDe)
-        // console.log(moment(new Date(dataDe)).format("YYYY-MM-DD"))
-        // event.preventDefault();
-        ///account/statements
-        // await api.get('account/statements?initialDate='+dataDe+'&finalDate='+dataAte)
-        await api.get('account/statements?initialDate=2019-01-01&finalDate=2019-01-31')
+        console.log()
+
+
+        console.log(dataDe)
+        await api.get('account/statements?initialDate='+moment(new Date(dataDe)).format("YYYY-MM-DD")+'&finalDate='+moment(new Date(dataAte)).format("YYYY-MM-DD"))
+        // await api.get('account/statements?initialDate=2019-01-01&finalDate=2019-01-31')
         .then((result) => {
           if(result.data.statement.length === 0){
             alert('Não foi encontrado nenhum lançamento no período selecionado')
@@ -182,37 +182,6 @@ export default function HomeUsuario() {
 
 
     }
-
-
-
-
-    useEffect(( ) => {
-        // async function extrato() {
-        //     // event.preventDefault();
-        //     ///account/statements
-        //     await api.get('account/statements?initialDate=2015-01-01&finalDate=2021-10-30')
-        //     .then((result) => {
-        //         console.log(result.data)
-    
-        //     }).catch(err => {
-        //         // window.location.href = '/';
-        //     })
-    
-    
-        // }
-
-
-        // extrato();
-
-        // let saldo = SaldoConta()
-
-        // setBalance(saldo.balance)
-        // console.log(saldo)
-
-
-    },
-    []
-    )
 
 
     return (
@@ -293,7 +262,7 @@ export default function HomeUsuario() {
             <Col md={6} >
             <div className="card mt-5 mb-5">
                 {sliceExtrato.map(extrato=>(
-                    <Accordion className="mt-2 mb-2 col-12" key={extrato.id} defaultActiveKey="0" >
+                    <Accordion className="mt-2 mb-2 col-12" key={extrato.id} >
                        <Card >
                        <Card.Header style={{ fontSize: '1.00em', padding:'0px' }}>
                                 <Accordion.Toggle as={Button} variant="link" eventKey="0" >
@@ -310,15 +279,20 @@ export default function HomeUsuario() {
                             <Accordion.Collapse eventKey="0">
                                 <Card.Body>
                                   {extrato.otherInfo.userLatitude &&
-                                     <strong>Latitude:{extrato.otherInfo.userLatitude} &nbsp;&nbsp;</strong>
+                                  <>
+                                     <strong>Latitude: </strong>{extrato.otherInfo.userLatitude} &nbsp;&nbsp;
+                                     </>
 
                                   }
                                   {extrato.otherInfo.userLongitude &&
-                                     <strong>Longitude:{extrato.otherInfo.userLongitude} </strong>
+                                  <>
+                                     <strong>Longitude: </strong>{extrato.otherInfo.userLongitude} 
+                                     </>
                                   }
                                   {extrato.otherInfo.cupom &&
                                     <>
-                                    <br></br>
+                                    <hr></hr>
+                                    
                                     <strong>Cupom: </strong>
                                     {MyComponent((extrato.otherInfo.cupom.replace(/@@/g,'<br></br>').replace(/@/g,' ')))}
                                     
