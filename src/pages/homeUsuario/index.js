@@ -8,12 +8,15 @@ import { addDays} from 'date-fns';
 import * as moment from 'moment'
 import ReactPagination from "react-js-pagination";
 import * as Icon from 'react-bootstrap-icons';
+import Highcharts from 'highcharts'
+import HighchartsReact from 'highcharts-react-official'
 // import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function HomeUsuario() {
 
-  document.title = 'EWALLY'
 
+
+    document.title = 'EWALLY'
     const saldo = SaldoConta();
 
     const [extratos, setExtratos] = useState([]);
@@ -23,6 +26,89 @@ export default function HomeUsuario() {
     const [sliceExtrato, setSliceExtrato] = useState([]);
     const [activePage, setActivePage] = useState(1);
     const [numeroRegistros, setNumeroRegistros] = useState(0);
+    const [entradasGrafico, setEntradasGrafico] = useState([]);
+    const [saidasGrafico, setSaidasGrafico] = useState([]);
+    const [datasGrafico, setDatasGrafico] = useState([]);
+    const options = {
+      title: {
+        text: 'Movimentações - Extrato'
+      },
+      chart: {
+        type: 'bar'
+      },
+      xAxis: {
+        categories: datasGrafico,
+        title: {
+            text: null
+        }
+      },
+      series: [
+        {
+          color:'green',
+          name: 'Entradas',
+          data: entradasGrafico
+        }, 
+        {
+            color:'red',
+            name: 'Saidas',
+            data: saidasGrafico
+        }
+      ]
+    }
+
+
+    // const [graficoExtrato]
+
+    // const [teste, setTeste] = useState([]);
+
+
+    function graficoExtrato(data){
+      // let array_extrato_aux = [];
+
+      const extrato_aux = data.reduce((obj, {createdAt, amount}) => {
+        if (!obj[moment(new Date(createdAt)).format("DD/MM/YYYY")]) obj[moment(new Date(createdAt)).format("DD/MM/YYYY")] = [];
+        obj[moment(new Date(createdAt)).format("DD/MM/YYYY")].push({'amount':amount,'data':moment(new Date(createdAt)).format("DD/MM/YYYY")});
+        return obj;
+      }, {});
+      let array_datas_grafico = []
+      let array_entradas_grafico = []
+      let array_saidas_grafico = []
+
+      Object.keys(extrato_aux).forEach(function(key) {
+        let array_valor_entrada = 0;
+        let array_valor_saida = 0;
+        extrato_aux[key].map(e=>{
+          // console.log('number',e.amount/100)).replace(',','.'))
+          if(e.amount > 0){
+            array_valor_entrada += Math.abs(e.amount)
+          }else{
+            array_valor_saida += Math.abs(e.amount)
+          }
+        })
+        array_datas_grafico.push(key)
+        array_entradas_grafico.push(array_valor_entrada/100)
+        array_saidas_grafico.push(array_valor_saida/100)
+        // entradasGrafico.push(12)
+        console.log('datas',array_datas_grafico)
+      });
+      setDatasGrafico(array_datas_grafico)
+      setEntradasGrafico(array_entradas_grafico)
+      setSaidasGrafico(array_saidas_grafico)
+
+      // extrato_aux.map(e=>(
+      //   console.log(e)
+
+      // ))
+      
+      // extratos.map(extrato=>(
+      //   console.log(extrato)
+      //   teste[extrato.createdAt].push()
+        
+      // ))
+
+      
+
+    }
 
     function handlePageChange(number){
       let array_slice=[];
@@ -65,10 +151,11 @@ export default function HomeUsuario() {
             let number1_aux = 0
             let number2_aux = 10
             setSliceExtrato(array_slice_aux.slice(number1_aux,number2_aux))
-            setNumeroRegistros(i);
+            setNumeroRegistros(i)
 
-            setShowExtrato(true);
+            setShowExtrato(true)
             setExtratos(result.data.statement)
+            graficoExtrato(result.data.statement)
           }
             // 
     
@@ -84,6 +171,16 @@ export default function HomeUsuario() {
     
     function MyComponent(valor) {
       return <div dangerouslySetInnerHTML={createMarkup(valor)} />;
+    }
+
+    function colorStatus(valor){
+      if(valor < 0){
+        return 'red';
+      }else{
+        return 'green';
+      }
+
+
     }
 
 
@@ -122,6 +219,7 @@ export default function HomeUsuario() {
         <>
         <Container>
             <h1>{Formatar.formatarMoeda(saldo.balance/100)}</h1>
+
         </Container>
         <Container className="mt-4 col-md-10 d-flex justify-content-center" style={{backgroundColor:'rgba(245,245,245)',border:'1px solid #dddddd', padding:'10px', borderRadius:'10px', marginBottom:'15px'}} >
               <form  onSubmit = {verExtrato} >
@@ -164,7 +262,19 @@ export default function HomeUsuario() {
             </form>
           </Container>
           {showExtrato &&
+          <>
             <Container className="mt-4 col-md-12">
+            <Row >
+            <Col md={6}>
+            <div className="card mt-5 mb-5">
+              <HighchartsReact
+                highcharts={Highcharts}
+                options={options}
+              />
+            </div>
+            
+            </Col>
+            <Col md={6} >
             <div className="card mt-5 mb-5">
                 {sliceExtrato.map(extrato=>(
                     <Accordion className="mt-2 mb-2 col-12" key={extrato.id} >
@@ -174,10 +284,10 @@ export default function HomeUsuario() {
                                     <Icon.Plus style={{ fontSize: '1.65em' }} />
                                 </Accordion.Toggle>
                                 {/* &nbsp; <strong><i>Conta: </i></strong>&nbsp; {extrato.accountName} */}
-                                <strong><i> &nbsp; Valor: </i></strong> &nbsp; {Formatar.formatarMoeda(extrato.amount/100)}
+                                <strong><i> &nbsp; Valor: </i></strong> &nbsp; <i style={{color:colorStatus(extrato.amount)}}>{Formatar.formatarMoeda(extrato.amount/100)}</i>
                                 {/* <strong><i> &nbsp; Saldo: </i></strong> &nbsp; {Formatar.formatarMoeda(extrato.balance/100)} */}
-                                <strong><i> &nbsp; Data: </i></strong> &nbsp; {moment(new Date(extrato.createdAt)).format("DD/MM/YYYY")}
-                                <strong><i> &nbsp; Tipo: </i></strong> &nbsp; {extrato.operationType}
+                                <strong><i> &nbsp; Data: </i></strong> &nbsp; <i>{moment(new Date(extrato.createdAt)).format("DD/MM/YYYY")}</i>
+                                <strong><i> &nbsp; Tipo: </i></strong> &nbsp; <i>{extrato.operationType}</i>
                                 {/* <strong><i> &nbsp; Status: </i></strong> &nbsp; {extrato.status} */}
                             </Card.Header>
                             {extrato.otherInfo &&
@@ -217,8 +327,16 @@ export default function HomeUsuario() {
                 />
                 </div>
             </div>
+            </Col>
+
+            
+            </Row>
+            {/* <div className="mt-4 col-md-4">
+            
+            </div> */}
             
             </Container>
+            </>
 
             }
 
